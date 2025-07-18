@@ -23,9 +23,6 @@ class PomodoroTimer {
         this.progressFill = document.getElementById('progress-fill');
         this.sessionNumberEl = document.getElementById('session-number');
         this.completedCountEl = document.getElementById('completed-count');
-        this.notification = document.getElementById('notification');
-        this.notificationText = document.getElementById('notification-text');
-        this.notificationClose = document.getElementById('notification-close');
         this.modeButtons = document.querySelectorAll('.mode-btn');
     }
 
@@ -34,8 +31,6 @@ class PomodoroTimer {
         this.pauseBtn.addEventListener('click', () => this.pause());
         this.resetBtn.addEventListener('click', () => this.reset());
         this.skipBtn.addEventListener('click', () => this.skip());
-        this.notificationClose.addEventListener('click', () => this.hideNotification());
-        
         this.modeButtons.forEach(btn => {
             btn.addEventListener('click', () => this.switchMode(btn));
         });
@@ -85,9 +80,6 @@ class PomodoroTimer {
         setTimeout(() => {
             this.timeDisplay.classList.remove('complete');
         }, 500);
-
-        // Show notification
-        this.showNotification();
 
         // Update session tracking
         if (this.currentMode === 'work') {
@@ -184,33 +176,6 @@ class PomodoroTimer {
 
         // Update the browser tab title
         document.title = `${timeString} - ${modeLabel}`;
-    }
-
-    showNotification() {
-        let message = '';
-        switch (this.currentMode) {
-            case 'work':
-                message = 'Work session completed! Time for a break.';
-                break;
-            case 'short-break':
-                message = 'Short break completed! Ready to work?';
-                break;
-            case 'long-break':
-                message = 'Long break completed! Great job!';
-                break;
-        }
-        
-        this.notificationText.textContent = message;
-        this.notification.classList.add('show');
-        
-        // Auto-hide after 5 seconds
-        setTimeout(() => {
-            this.hideNotification();
-        }, 5000);
-    }
-
-    hideNotification() {
-        this.notification.classList.remove('show');
     }
 }
 
