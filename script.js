@@ -158,24 +158,32 @@ class PomodoroTimer {
     updateDisplay() {
         const minutes = Math.floor(this.timeLeft / 60);
         const seconds = this.timeLeft % 60;
-        this.timeDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        this.timeDisplay.textContent = timeString;
         
         // Update progress bar
         const progress = ((this.totalTime - this.timeLeft) / this.totalTime) * 100;
         this.progressFill.style.width = `${progress}%`;
         
         // Update timer label
+        let modeLabel = '';
         switch (this.currentMode) {
             case 'work':
+                modeLabel = 'Work Time';
                 this.timerLabel.textContent = 'Work Time';
                 break;
             case 'short-break':
+                modeLabel = 'Short Break';
                 this.timerLabel.textContent = 'Short Break';
                 break;
             case 'long-break':
+                modeLabel = 'Long Break';
                 this.timerLabel.textContent = 'Long Break';
                 break;
         }
+
+        // Update the browser tab title
+        document.title = `${timeString} - ${modeLabel}`;
     }
 
     showNotification() {
